@@ -115,6 +115,8 @@ function emitUpdate(fieldname: Field["fieldname"], value: Value) {
 
 onMounted(() => {
   emitter.on("fchange", function (e: any) {
+    console.log("fchange");
+
     if (
       ["custom_type", "custom_agent"].includes(props.field.fieldname) &&
       e.fieldname == "custom_team"
