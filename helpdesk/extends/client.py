@@ -15,6 +15,39 @@ from helpdesk.utils import check_permissions
 
 from .doc import apply_sort
 
+@frappe.whitelist()
+def get_teams():
+	types = frappe.db.get_all(
+				"HD Team",
+				fields=["name"],
+				filters={} 
+			)
+	return [a["name"] for a in types]
+
+
+# iwant : types or agents 
+@frappe.whitelist()
+def get_types(iwant=None,team=None):
+	types = []
+	if iwant != None and team:
+		if iwant == "types":
+			types = frappe.db.get_all(
+				"HD Ticket Type item",
+				fields=["parent", "hd_ticket_type"],
+				filters={"parenttype": "HD Team", "parent": team} 
+			)
+			types = [a['hd_ticket_type'] for a in types]
+
+		if iwant == "agents":
+			types = frappe.db.get_all(
+				"HD Team Member",
+				fields=["parent", "user"],
+				filters={"parenttype": "HD Team", "parent": team} 
+			)
+			types = [a['user'] for a in types]
+
+
+	return {"types":types}
 
 @frappe.whitelist()
 def get_list(
