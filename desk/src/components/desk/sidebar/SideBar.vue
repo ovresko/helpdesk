@@ -6,6 +6,7 @@
       'max-width': width,
     }"
   >
+    <a href="/" style="padding: 10px">🢐 ERPNext</a>
     <UserMenu class="mb-2 ml-0.5" :options="profileSettings" />
     <SidebarLink
       label="Search"
