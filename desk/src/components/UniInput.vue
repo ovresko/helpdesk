@@ -22,6 +22,8 @@ import { computed, h } from "vue";
 import { createResource, Autocomplete, FormControl } from "frappe-ui";
 import { Field } from "@/types";
 import SearchComplete from "./SearchComplete.vue";
+import { onMounted, watch, ref, isProxy, toRaw, reactive } from "vue";
+import { emitter } from "@/emitter";
 
 type Value = string | number | boolean;
 
@@ -41,8 +43,13 @@ interface E {
 
 const props = defineProps<P>();
 const emit = defineEmits<E>();
+const shouldRecompute = ref(false);
 
 const component = computed(() => {
+  if (shouldRecompute.value) {
+    return null;
+  }
+
   if (props.field.url_method) {
     return h(Autocomplete, {
       options: apiOptions.data,
@@ -103,5 +110,42 @@ const placeholder = computed(() => {
 
 function emitUpdate(fieldname: Field["fieldname"], value: Value) {
   emit("change", { fieldname, value });
+  emitter.emit("fchange", { fieldname, value });
 }
+
+onMounted(() => {
+  emitter.on("fchange", function (e: any) {
+    if (
+      ["custom_type", "custom_agent"].includes(props.field.fieldname) &&
+      e.fieldname == "custom_team"
+    ) {
+      var iwant = "types";
+      if (props.field.fieldname == "custom_agent") {
+        iwant = "agents";
+      }
+      let todos = createResource({
+        url: "helpdesk.extends.client.get_types", // [!code --]
+        params: {
+          iwant: iwant,
+          team: e.value,
+        }, // iwant=None,resource=None,team=None
+      });
+      var res = todos.fetch();
+
+      res.then((response) => {
+        console.log("response", response);
+        if (isProxy(response)) {
+          response = toRaw(response);
+        }
+        apiOptions.data = response.types.map((o) => ({
+          label: o,
+          value: o,
+        }));
+        shouldRecompute.value = true;
+        console.log("data", apiOptions.data);
+        shouldRecompute.value = false;
+      });
+    }
+  });
+});
 </script>
