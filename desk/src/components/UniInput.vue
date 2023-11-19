@@ -5,6 +5,10 @@
       <span v-if="field.required" class="place-self-center text-red-500">
         *
       </span>
+      <button v-if="transValue" @click="clearSelection" class="ml-2 text-red-500">
+        Effacer
+      </button>
+     
     </span>
     <component
       :is="component"
@@ -150,4 +154,9 @@ onMounted(() => {
     }
   });
 });
+
+function clearSelection() {
+  emitUpdate(props.field.fieldname, null); // Set the value to null to clear the selection
+}
+
 </script>
