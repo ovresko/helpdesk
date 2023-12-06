@@ -2,6 +2,7 @@
   <div
     class="flex items-center justify-between rounded-b bg-white px-5 py-2.5 text-base"
   >
+    <a href="/" style="padding: 10px">🢐 ERPNext</a>
     <Dropdown :options="options">
       <template #default="{ open }">
         <div class="flex cursor-pointer items-center gap-1">

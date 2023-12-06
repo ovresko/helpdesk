@@ -86,15 +86,18 @@ class HDTicket(Document):
 		)
 		query = query.where(Criterion.any(conditions))
 
-		enable_restrictions, ignore_restrictions = frappe.get_value(
+      	restricttions = frappe.get_value(
 			doctype="HD Settings",
 			fieldname=[
 				"restrict_tickets_by_agent_group",
 				"do_not_restrict_tickets_without_an_agent_group",
 			],
+			as_dict=1
 		)
-		enable_restrictions = bool(int(enable_restrictions))
-		ignore_restrictions = bool(int(ignore_restrictions))
+		enable_restrictions = ignore_restrictions = 0
+		if restricttions:
+			enable_restrictions =  bool(int(restricttions['restrict_tickets_by_agent_group']))
+			ignore_restrictions =  bool(int(restricttions['do_not_restrict_tickets_without_an_agent_group']))
 
 		if not enable_restrictions:
 			return query
@@ -737,5 +740,13 @@ def has_permission(doc, user=None):
 		or doc.raised_by == user
 		or doc.owner == user
 		or doc.customer == get_customer(user)
-		or is_agent(user)
+		or is_agent_team(user,doc.agent_group)
 	)
+
+
+def is_agent_team(user,team):
+    if not user or not team:
+        return False
+
+    users = frappe.db.get_value("HD Team",team,'users')
+    return users and (user in users)
