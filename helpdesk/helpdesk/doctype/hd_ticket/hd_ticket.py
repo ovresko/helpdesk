@@ -735,6 +735,7 @@ class HDTicket(Document):
 # permission checks which is not possible with standard permission system. This function
 # is being called from hooks. `doc` is the ticket to check against
 def has_permission(doc, user=None):
+    frappe.msgprint("Check permission !")
 	return (
 		doc.contact == user
 		or doc.raised_by == user
