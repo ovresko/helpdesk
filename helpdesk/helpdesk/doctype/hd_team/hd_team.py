@@ -14,10 +14,10 @@ class HDTeam(Document):
 
 	def after_insert(self):
 		self.create_assignment_rule()
-		self.create_permission()
+		#self.create_permission()
 	
-	def on_update(self):
-		self.create_permission()
+	# def on_update(self):
+	# 	self.create_permission()
 
 	def after_rename(self, olddn, newdn, merge=False):
 		# Update the condition for the linked assignment rule
