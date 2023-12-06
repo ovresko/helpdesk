@@ -86,7 +86,7 @@ class HDTicket(Document):
 		)
 		query = query.where(Criterion.any(conditions))
 
-      	restricttions = frappe.get_value(
+		restricttions = frappe.get_value(
 			doctype="HD Settings",
 			fieldname=[
 				"restrict_tickets_by_agent_group",
