@@ -16,7 +16,7 @@ class HDTeam(Document):
 		self.create_assignment_rule()
 		self.create_permission()
 	
- 	def on_update(self):
+	def on_update(self):
 		self.create_permission()
 
 	def after_rename(self, olddn, newdn, merge=False):
