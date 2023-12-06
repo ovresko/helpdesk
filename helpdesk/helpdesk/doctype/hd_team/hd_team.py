@@ -82,7 +82,7 @@ class HDTeam(Document):
 		for user in self.users:
 			try:
 				todo = frappe.new_doc('User Permission')
-				todo.user = user['user']
+				todo.user = user.user
 				todo.allow = "HD Team"
 				todo.for_value = self.name
 				todo.apply_to_all_doctypes = 1
