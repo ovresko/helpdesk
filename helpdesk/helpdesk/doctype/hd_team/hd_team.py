@@ -88,4 +88,4 @@ class HDTeam(Document):
 				todo.apply_to_all_doctypes = 1
 				todo.insert()
 			except Exception as e:
-				frappe.throw(e)
+				raise e
