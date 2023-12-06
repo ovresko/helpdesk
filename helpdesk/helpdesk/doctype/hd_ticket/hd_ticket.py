@@ -750,5 +750,5 @@ def is_agent_team(user,team):
     if not user or not team:
         return False
 
-    users = frappe.db.get_value("HD Team",team,'users')
-    return users and (user in users)
+    users = frappe.db.sql("select user from `HD Team Member` where parent=%s" % team,as_dict=1)
+    return users and (user in [a['user'] for a in users])
