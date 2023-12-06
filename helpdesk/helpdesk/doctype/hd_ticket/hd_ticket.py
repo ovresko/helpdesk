@@ -736,12 +736,12 @@ class HDTicket(Document):
 # is being called from hooks. `doc` is the ticket to check against
 def has_permission(doc, user=None):
 	is_customer = get_customer(user)
-	frappe.msgprint(f"Check permission ! {user} / {doc.agent_group} / {doc.contact} / {doc.raised_by} / {doc.owner} / is_customer {is_customer}")
+	#frappe.msgprint(f"Check permission ! {user} / {doc.agent_group} / {doc.contact} / {doc.raised_by} / {doc.owner} / is_customer {is_customer}")
 	return (
 		doc.contact == user
 		or doc.raised_by == user
 		or doc.owner == user
-		or doc.customer == is_customer
+		or (doc.customer and doc.customer == is_customer)
 		or is_agent_team(user,doc.agent_group)
 	)
 
