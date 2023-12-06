@@ -87,5 +87,5 @@ class HDTeam(Document):
 				todo.for_value = self.name
 				todo.apply_to_all_doctypes = 1
 				todo.insert()
-			except:
-				pass
+			except Exception as e:
+				frappe.throw(e)
