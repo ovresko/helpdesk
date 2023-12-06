@@ -76,7 +76,7 @@ class HDTeam(Document):
 
 	def create_permission(self):
 		
-  		for user in self.users:
+		for user in self.users:
 			todo = frappe.new_doc('User Permission')
 			todo.user = user['user']
 			todo.allow = "HD Team"
