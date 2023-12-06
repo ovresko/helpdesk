@@ -693,10 +693,16 @@ def has_permission(doc, user=None):
 		doc.contact == user
 		or doc.raised_by == user
 		or doc.owner == user
-		or is_agent(user)
+		or is_agent_team(user,doc.agent_group)
 		or doc.customer in get_customer(user)
 	)
 
+def is_agent_team(user,team):
+    if not user or not team:
+        return False
+    
+    users = frappe.db.get_value("HD Team",team,'users')
+    return users and (user in users)
 
 # Custom perms for list query. Only the `WHERE` part
 # https://frappeframework.com/docs/user/en/python-api/hooks#modify-list-query
