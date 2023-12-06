@@ -86,6 +86,6 @@ class HDTeam(Document):
 				todo.allow = "HD Team"
 				todo.for_value = self.name
 				todo.apply_to_all_doctypes = 1
-				todo.save()
+				todo.insert()
 			except:
 				pass
