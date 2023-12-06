@@ -15,6 +15,9 @@ class HDTeam(Document):
 	def after_insert(self):
 		self.create_assignment_rule()
 		self.create_permission()
+	
+ 	def on_update(self):
+		self.create_permission()
 
 	def after_rename(self, olddn, newdn, merge=False):
 		# Update the condition for the linked assignment rule
@@ -77,9 +80,12 @@ class HDTeam(Document):
 	def create_permission(self):
 		
 		for user in self.users:
-			todo = frappe.new_doc('User Permission')
-			todo.user = user['user']
-			todo.allow = "HD Team"
-			todo.for_value = self.name
-			todo.apply_to_all_doctypes = 1
-			todo.insert()
+			try:
+				todo = frappe.new_doc('User Permission')
+				todo.user = user['user']
+				todo.allow = "HD Team"
+				todo.for_value = self.name
+				todo.apply_to_all_doctypes = 1
+				todo.insert()
+			except:
+				pass
