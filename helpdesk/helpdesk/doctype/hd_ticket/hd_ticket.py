@@ -750,6 +750,10 @@ def list_query(user):
 		user = frappe.session.user
 	if user == "Administrator":
 		return '1=1'
+	roles = frappe.get_roles(user)
+	if "Helpdesk Manager" in roles:
+		return '1=1'
+
 	# todos that belong to user or assigned by user
 	teams = frappe.db.sql("select parent from `tabHD Team Member` where user=%s", (user),as_dict=1)	
 	if teams:
