@@ -5,8 +5,8 @@
       <span v-if="field.required" class="place-self-center text-red-500">
         *
       </span>
-      <button v-if="transValue" @click="clearSelection" class="ml-2 text-red-500">
-        Effacer
+      <button v-if="transValue" @click="clearSelection" class="ml-4 text-red-500" style="font-size: 10px;">
+        (Effacer)
       </button>
 
     </span>
