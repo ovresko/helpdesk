@@ -29,3 +29,6 @@ doc_events = {
 has_permission = {
 	"HD Ticket": "helpdesk.helpdesk.doctype.hd_ticket.hd_ticket.has_permission",
 }
+permission_query_conditions = {
+    "HD Ticket": "helpdesk.helpdesk.doctype.hd_ticket.hd_ticket.list_query",
+}
