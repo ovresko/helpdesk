@@ -748,6 +748,8 @@ def has_permission(doc, user=None):
 def list_query(user):
 	if not user:
 		user = frappe.session.user
+	if user == "Administrator":
+		return '1=1'
 	# todos that belong to user or assigned by user
 	teams = frappe.db.sql("select parent from `tabHD Team Member` where user=%s", (user),as_dict=1)	
 	if teams:
