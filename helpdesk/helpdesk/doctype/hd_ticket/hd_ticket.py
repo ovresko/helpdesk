@@ -717,6 +717,8 @@ class HDTicket(Document):
 	# is an external dependency. Refer `communication.py` of Frappe framework for more.
 	# Since this is called from communication itself, `c` is the communication doc.
 	def on_communication_update(self, c):
+		if c.sent_or_received == "Received":
+			self.status = "Open"
 		if c.sent_or_received == "Sent":
 			# If communication is outgoing, then it is a reply from agent.
 			self.status = "Replied"
@@ -729,6 +731,7 @@ class HDTicket(Document):
 		self.description = self.description or c.content
 		# Save the ticket, allowing for hooks to run.
 		self.save()
+
 
 
 # Check if `user` has access to this specific ticket (`doc`). This implements extra
