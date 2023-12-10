@@ -761,7 +761,9 @@ def list_query(user):
 	teams = frappe.db.sql("select parent from `tabHD Team Member` where user=%s", (user),as_dict=1)	
 	if teams:
 		teams = ",".join(['"%s"' % a['parent'] for a in teams])
-	return "(`tabHD Ticket`.owner = {user} or `tabHD Ticket`.raised_by = {user} or `tabHD Ticket`.contact = {user} or `tabHD Ticket`.agent_group in ({teams}) )".format(user=frappe.db.escape(user),teams=teams)
+		return "(`tabHD Ticket`.owner = {user} or `tabHD Ticket`.raised_by = {user} or `tabHD Ticket`.contact = {user} or `tabHD Ticket`.agent_group in ({teams}) )".format(user=frappe.db.escape(user),teams=teams)
+	else:
+		return "1=1"
 
 def is_agent_team(user,team):
     if not user or not team:
