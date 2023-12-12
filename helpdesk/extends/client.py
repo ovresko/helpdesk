@@ -81,8 +81,8 @@ def get_list(
 	check_allowed(doctype)
 	check_permissions(doctype, parent)
 
-	employee_tickets = "raised_by" in filters
-	if employee_tickets:
+	self_tickets = doctype == "HD Ticket" and "raised_by" in filters and filters.get("raised_by")=="self"
+	if self_tickets:
 		del filters['raised_by']
 
 	query = frappe.qb.get_query(
@@ -94,7 +94,7 @@ def get_list(
 		group_by=group_by,
 	)
 
-	if employee_tickets:
+	if self_tickets:
 		user = frappe.session.user
 		QBTicket = frappe.qb.DocType("HD Ticket")
 		conditions = (
@@ -139,7 +139,22 @@ def get_list_meta(
 		fields=["name"],
 	)
 
-	query = apply_custom_filters(doctype, query)
+	self_tickets = doctype == "HD Ticket" and "raised_by" in filters and filters.get("raised_by")=="self"
+	if self_tickets:
+		del filters['raised_by']
+
+	if self_tickets:
+		user = frappe.session.user
+		QBTicket = frappe.qb.DocType("HD Ticket")
+		conditions = (
+			[
+				QBTicket.raised_by == user,
+			]
+		)
+		query = query.where(Criterion.any(conditions))
+	else:
+		query = apply_custom_filters(doctype, query)
+  
 	query = apply_hook(doctype, query)
 	query = apply_sort(doctype, order_by, query)
 
