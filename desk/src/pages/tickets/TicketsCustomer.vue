@@ -92,6 +92,9 @@ const tickets = createListManager({
   doctype: "HD Ticket",
   pageLength: 20,
   fields: ["name", "creation", "subject", "status"],
+  filters: {
+    "raised_by":"self"
+  },
   auto: true,
   transform: (data) => {
     for (const d of data) {

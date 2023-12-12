@@ -10,6 +10,7 @@ from frappe.model.base_document import get_controller
 from frappe.query_builder.functions import Count
 from frappe.utils import get_user_info_for_avatar
 from frappe.utils.caching import redis_cache
+from pypika.terms import Criterion
 
 from helpdesk.utils import check_permissions
 
@@ -80,6 +81,10 @@ def get_list(
 	check_allowed(doctype)
 	check_permissions(doctype, parent)
 
+	employee_tickets = "raised_by" in filters
+	if employee_tickets:
+		del filters['raised_by']
+
 	query = frappe.qb.get_query(
 		table=doctype,
 		fields=fields,
@@ -89,7 +94,18 @@ def get_list(
 		group_by=group_by,
 	)
 
-	query = apply_custom_filters(doctype, query)
+	if employee_tickets:
+		user = frappe.session.user
+		QBTicket = frappe.qb.DocType("HD Ticket")
+		conditions = (
+			[
+				QBTicket.raised_by == user,
+			]
+		)
+		query = query.where(Criterion.any(conditions))
+	else:
+		query = apply_custom_filters(doctype, query)
+
 	query = apply_hook(doctype, query)
 	query = apply_sort(doctype, order_by, query)
 
