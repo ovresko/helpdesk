@@ -717,6 +717,9 @@ class HDTicket(Document):
 	# is an external dependency. Refer `communication.py` of Frappe framework for more.
 	# Since this is called from communication itself, `c` is the communication doc.
 	def on_communication_update(self, c):
+		# ignore frappe notifications as they also trigger on_communication_update
+		if c.sender_full_name=="Notifications":
+			return
 		if c.sent_or_received == "Received":
 			self.status = "Open"
 		if c.sent_or_received == "Sent":
