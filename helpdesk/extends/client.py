@@ -27,7 +27,7 @@ def create_task(ticket):
 	task.insert()
 	assigns = get_assign({"doctype": "HD Ticket", "name": ticket['name']})
 	if assigns:
-		assigns = [a['name'] for a in assigns]
+		assigns = [a['owner'] for a in assigns]
 		assign({"assign_to": assigns, "doctype": "Task", "name": task.name})
 	return task.name
 
