@@ -11,7 +11,7 @@ from frappe.query_builder.functions import Count
 from frappe.utils import get_user_info_for_avatar
 from frappe.utils.caching import redis_cache
 from pypika.terms import Criterion
-
+from frappe.desk.form.assign_to import get as get_assign, add as assign
 from helpdesk.utils import check_permissions
 
 from .doc import apply_sort
@@ -20,11 +20,15 @@ from .doc import apply_sort
 @frappe.whitelist()
 def create_task(ticket):
 	task = frappe.new_doc('Task')
-	task.subject = 'Nouvelle tâche...'
+	task.subject = ticket['subject']
 	#todo.owner = ticket['owner']
 	task.custom_hd_ticket = ticket['name']
 	task.priority = ticket['priority']
 	task.insert()
+	assigns = get_assign({"doctype": "HD Ticket", "name": ticket['name']})
+	if assigns:
+		assigns = [a['name'] for a in assigns]
+		assign({"assign_to": assigns, "doctype": "Task", "name": task.name})
 	return task.name
 
 @frappe.whitelist()
