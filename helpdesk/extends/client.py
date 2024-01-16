@@ -17,6 +17,15 @@ from helpdesk.utils import check_permissions
 from .doc import apply_sort
 
 
+@frappe.whitelist()
+def create_task(ticket):
+	task = frappe.new_doc('Task')
+	task.subject = 'Nouvelle tâche...'
+	#todo.owner = ticket['owner']
+	task.custom_hd_ticket = ticket['name']
+	task.priority = ticket['priority']
+	task.insert()
+	return task.name
 
 @frappe.whitelist()
 def create_todo(ticket):
