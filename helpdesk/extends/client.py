@@ -61,12 +61,15 @@ def get_types(iwant=None,team=None):
 	types = []
 	if iwant != None and team:
 		if iwant == "types":
-			types = frappe.db.get_all(
+			atypes = frappe.db.get_all(
 				"HD Ticket Type item",
 				fields=["parent", "hd_ticket_type"],
 				filters={"parenttype": "HD Team", "parent": team} 
 			)
-			types = [a['hd_ticket_type'] for a in types]
+			for tt in atypes:
+				ttype = frappe.db.get_value("HD Ticket Type",tt['hd_ticket_type'],"custom_disabled")
+				if not ttype:
+					types.append(tt['hd_ticket_type'])
 
 		if iwant == "agents":
 			types = frappe.db.get_all(
