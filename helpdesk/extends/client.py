@@ -55,7 +55,7 @@ def get_teams():
 	teams = []
 	for t in ateams:
 		if t.get['custom_disabled']:
-			teams.append(a['name'])
+			teams.append(t['name'])
 	return teams
 
 
