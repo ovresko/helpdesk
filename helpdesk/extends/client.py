@@ -49,10 +49,14 @@ def create_todo(ticket):
 def get_teams():
 	types = frappe.db.get_all(
 				"HD Team",
-				fields=["name"],
+				fields=["name","custom_disabled"],
 				filters={} 
 			)
-	return [a["name"] for a in types]
+	tt=[]
+	for t in types:
+		if not t.get('custom_disabled'):
+			tt.append(t['name'])	
+	return tt
 
 
 # iwant : types or agents 

@@ -743,6 +743,12 @@ class HDTicket(Document):
 def has_permission(doc, user=None):
 	is_customer = get_customer(user)
 	#frappe.msgprint(f"Check permission ! {user} / {doc.agent_group} / {doc.contact} / {doc.raised_by} / {doc.owner} / is_customer {is_customer}")
+	if not user:
+		user = frappe.session.user
+	if user:
+		roles = frappe.get_roles(user)
+		if "Helpdesk Manager" in roles:
+			return None
 	return (
 		doc.contact == user
 		or doc.raised_by == user
