@@ -47,7 +47,7 @@ def create_todo(ticket):
 
 @frappe.whitelist()
 def get_teams():
-	types = frappe.db.get_all(
+	ateams = frappe.db.get_all(
 				"HD Team",
 				fields=["name","custom_disabled"],
 				filters={} 

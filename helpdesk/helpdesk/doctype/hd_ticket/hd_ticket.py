@@ -110,6 +110,8 @@ class HDTicket(Document):
 			.select(QBTeam.team_name, QBTeam.ignore_restrictions)
 			.run(as_dict=True)
 		)
+		if len(teams)<=0:
+			frappe.throw("Agent without HD Team, Contact Helpdesk Manager!")
 
 		can_ignore_restrictions = (
 			len(list(filter(lambda x: x.ignore_restrictions, teams))) > 0
