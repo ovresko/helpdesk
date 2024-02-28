@@ -53,7 +53,7 @@ def get_teams():
 				filters={} 
 			)
 	tt=[]
-	for t in types:
+	for t in ateams:
 		if not t.get('custom_disabled'):
 			tt.append(t['name'])	
 	return tt
