@@ -24,6 +24,14 @@
             <Icon icon="lucide:check" />
           </template>
         </Button>
+        <a :href="`https://sirh.icosnet.com/app/hd-ticket/${props.ticketId}`" target="_blank">
+          <Button
+            label="Ouvrir"
+            theme="gray"
+            variant="outline"         
+          >
+        </Button>
+      </a>
       </template>
     </TicketBreadcrumbs>
     <TicketCustomerTemplateFields />
