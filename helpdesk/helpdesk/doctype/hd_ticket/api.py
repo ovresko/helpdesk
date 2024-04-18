@@ -6,6 +6,8 @@ from pypika import Criterion, Order
 
 from helpdesk.consts import DEFAULT_TICKET_TEMPLATE
 from helpdesk.helpdesk.doctype.hd_ticket_template.api import get_one as get_template
+from helpdesk.helpdesk.doctype.hd_ticket.hd_ticket import has_permission
+
 from helpdesk.utils import check_permissions, get_customer, is_agent
 
 
@@ -41,6 +43,9 @@ def get_one(name):
 	if not len(ticket):
 		frappe.throw(_("Ticket not found"), frappe.DoesNotExistError)
 	ticket = ticket.pop()
+	hasperm = has_permission(ticket,frappe.session.user)
+	if hasperm != True:
+		frappe.throw(_("Ticket not found"), frappe.DoesNotExistError)
 
 	contact = (
 		frappe.qb.from_(QBContact)
