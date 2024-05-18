@@ -44,7 +44,7 @@ def get_one(name):
 		frappe.throw(_("Ticket not found"), frappe.DoesNotExistError)
 	ticket = ticket.pop()
 	hasperm = has_permission(ticket,frappe.session.user)
-	if hasperm != True:
+	if hasperm == False:
 		frappe.throw(_("Ticket not found"), frappe.DoesNotExistError)
 
 	contact = (
