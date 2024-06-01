@@ -114,6 +114,11 @@ const columns = [
     width: "w-20",
   },
   {
+    label: "Work Status",
+    key: "custom_work_status",
+    width: "w-20",
+  },
+  {
     label: "Priority",
     key: "priority",
     width: "w-32",
@@ -177,11 +182,6 @@ const columns = [
     label: "Created",
     key: "creation",
     width: "w-36",
-  },
-  {
-    label: "Work Status",
-    key: "custom_work_status",
-    width: "w-20",
   },
 ];
 
