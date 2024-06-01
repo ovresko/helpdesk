@@ -178,6 +178,11 @@ const columns = [
     key: "creation",
     width: "w-36",
   },
+  {
+    label: "Work Status",
+    key: "custom_work_status",
+    width: "w-20",
+  },
 ];
 
 usePageMeta(() => {
