@@ -6,7 +6,8 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "subtype"
+  "subtype",
+  "sla"
  ],
  "fields": [
   {
@@ -15,12 +16,19 @@
    "in_list_view": 1,
    "label": "Subtype",
    "reqd": 1
+  },
+  {
+   "fieldname": "sla",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "SLA",
+   "options": "HD Service Level Agreement"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-07 17:29:55.862853",
+ "modified": "2024-10-07 11:29:48.691486",
  "modified_by": "Administrator",
  "module": "Helpdesk",
  "name": "HD Ticket Subtype",
