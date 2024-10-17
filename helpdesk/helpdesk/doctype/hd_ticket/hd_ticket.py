@@ -786,5 +786,5 @@ def is_agent_team(user,team):
     return users and (user in [a['user'] for a in users])
 
 def get_mensionned(user,ticket):
-	notifs = frappe.db.sql("select name from `tabHD Notification` where reference_ticket=%s and (user_to=%s or user_from=%s)",(ticket,frappe.db.escape(user),frappe.db.escape(user)),as_dict=1)
-	return notifs
+	notifs = frappe.db.sql("select name from `tabHD Notification` where reference_ticket=%s and (user_to=%s or user_from=%s)",(ticket,user,user),as_dict=1)
+	return len(notifs)>0
