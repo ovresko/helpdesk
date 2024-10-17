@@ -751,8 +751,10 @@ def has_permission(doc, user=None):
 		roles = frappe.get_roles(user)
 		if "Helpdesk Manager" in roles:
 			return None
+	notifs = get_mensionned(user,doc.name)
 	return (
 		doc.contact == user
+		or notifs
 		or doc.raised_by == user
 		or doc.owner == user
 		or (doc.customer and doc.customer == is_customer)
@@ -782,3 +784,7 @@ def is_agent_team(user,team):
 
     users = frappe.db.sql("select user from `tabHD Team Member` where parent=%s", (team),as_dict=1)
     return users and (user in [a['user'] for a in users])
+
+def get_mensionned(user,ticket):
+	notifs = frappe.db.sql("select name from `tabHD Notification` where reference_ticket=%s and (user_to=%s or user_from=%s)",(ticket,frappe.db.escape(user),frappe.db.escape(user)),as_dict=1)
+	return notifs
