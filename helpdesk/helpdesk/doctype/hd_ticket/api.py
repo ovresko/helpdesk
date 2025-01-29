@@ -45,7 +45,7 @@ def get_one(name):
 	ticket = ticket.pop()
 	hasperm = has_permission(ticket,frappe.session.user)
 	if hasperm == False:
-		frappe.throw(_("Ticket not found"), frappe.DoesNotExistError)
+		frappe.throw("Non autorise", frappe.PermissionError)
 
 	contact = (
 		frappe.qb.from_(QBContact)
